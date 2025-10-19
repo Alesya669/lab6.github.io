@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const optionsGroup = document.getElementById('optionsGroup');
     const propertiesGroup = document.getElementById('propertiesGroup');
     const totalPrice = document.getElementById('totalPrice');
+    const quantityError = document.getElementById('quantityError');
 
     const prices = {
         basic: 4500,
@@ -16,13 +17,33 @@ window.addEventListener('DOMContentLoaded', function() {
         priority: 1000
     };
 
+    function isValidNumber(input) {
+        return /^\d+$/.test(input);
+    }
+
     function getSelectedType() {
         return document.querySelector('input[name="serviceType"]:checked').value;
     }
 
+    function validateQuantity() {
+        if (!isValidNumber(quantity.value)) {
+            quantityError.style.display = 'block';
+            return 0;
+        } else {
+            quantityError.style.display = 'none';
+            return parseInt(quantity.value);
+        }
+    }
+
     function calculate() {
         const type = getSelectedType();
-        const count = parseInt(quantity.value) || 1;
+        const count = validateQuantity();
+
+        if (count === 0) {
+            totalPrice.textContent = '0';
+            return;
+        }
+
         let price = prices[type];
 
         if (type === 'premium') {
@@ -48,15 +69,17 @@ window.addEventListener('DOMContentLoaded', function() {
         calculate();
     }
 
-    // События
-    quantity.addEventListener('input', calculate);
+    // Обработчики событий
+    quantity.addEventListener('input', function() {
+        calculate();
+    });
+
     document.querySelectorAll('input[name="serviceType"]').forEach(radio => {
         radio.addEventListener('change', handleTypeChange);
     });
     document.getElementById('options').addEventListener('change', calculate);
     document.getElementById('property').addEventListener('change', calculate);
 
-    // Инициализация
     updateVisibility();
     calculate();
 });

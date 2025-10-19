@@ -7,10 +7,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         body {
-        background: linear-gradient( to right,#5E6A7D,#C2B7A2);
-
+            background-image: url('car.jpg');
+            background-size: cover;
             padding: 100px;
-
         }
         .calculator {
             max-width: 600px;
@@ -24,12 +23,17 @@
             font-size: 1.5em;
             margin-top: 20px;
             padding: 15px;
-            background: linear-gradient(135deg, #C2B7A2, #5E6A7D);
-
+            background: #c96b6b;
             border-radius: 5px;
             text-align: center;
         }
         .hidden {
+            display: none;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 5px;
             display: none;
         }
     </style>
@@ -39,13 +43,14 @@
     <h2 class="text-center mb-4">Стоимость услуг автомойки</h2>
 
     <form id="serviceForm">
-
         <div class="form-group">
             <label for="quantity">Количество:</label>
-            <input type="number" class="form-control" id="quantity" name="quantity"
-                   value="1" min="1" required>
+            <input type="text" class="form-control" id="quantity" name="quantity"
+                   placeholder="Введите количество" value="1" required>
+            <div class="error-message" id="quantityError">
+                Пожалуйста, введите корректное количество (только цифры)
+            </div>
         </div>
-
 
         <div class="form-group">
             <label>Тип услуги:</label>
@@ -53,21 +58,21 @@
                 <input class="form-check-input" type="radio" name="serviceType"
                        id="type1" value="basic" checked>
                 <label class="form-check-label" for="type1">
-                    Автомойка  - 4500 руб.
+                    Автомойка - 4500 руб.
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="serviceType"
                        id="type2" value="premium">
                 <label class="form-check-label" for="type2">
-                    Химчистка  - 5000 руб.
+                    Химчистка - 5000 руб.
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="serviceType"
                        id="type3" value="vip">
                 <label class="form-check-label" for="type3">
-                    Детейлинг  - 8000 руб.
+                    Детейлинг - 8000 руб.
                 </label>
             </div>
         </div>
@@ -76,11 +81,10 @@
             <label for="options">Дополнительные опции:</label>
             <select class="form-control" id="options" name="options">
                 <option value="standard">Стандартная опция (+0 руб.)</option>
-                <option value="express">Удаление неприятных запахов(+500 руб.)</option>
+                <option value="express">Удаление неприятных запахов (+500 руб.)</option>
                 <option value="priority">Восстановление материалов и поверхностей (+1000 руб.)</option>
             </select>
         </div>
-
 
         <div class="form-group hidden" id="propertiesGroup">
             <div class="form-check">
@@ -93,7 +97,7 @@
     </form>
 
     <div class="price-display" id="priceDisplay">
-        Общая стоимость: <span id="totalPrice">1000</span> руб.
+        Общая стоимость: <span id="totalPrice"></span> руб.
     </div>
 </div>
 
